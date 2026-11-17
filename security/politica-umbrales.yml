@@ -22,7 +22,7 @@ modo: bloquear           # cambiado por scripts (ver historial de git)
 herramientas:
   semgrep:               # SAST · gravedades: ERROR, WARNING, INFO
     umbrales:
-      ERROR: 14           # límite de tolerancia: hallazgos ERROR de hoy
+      ERROR: 5           # límite de tolerancia: hallazgos ERROR de hoy
   zap:                   # DAST · riesgos: High, Medium, Low, Informational
     umbrales:
       High: 0

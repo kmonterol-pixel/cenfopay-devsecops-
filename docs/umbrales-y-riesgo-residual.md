@@ -22,6 +22,20 @@
 | endurecimiento | ALTA   |        |      |                                                                          |
 | registros   | ALTA      | 0      |      |                                                                          |
 
+***********************************************************
+
+| semgrep     | ERROR     | 5      | bloquear | Límite de tolerancia: son los 5 hallazgos ERROR que había al iniciar. Se toleran las fallas heredadas, pero ningún cambio nuevo puede agregar otra. Baja a 0 en la semana 3, cuando se corrige el código |
+| zap         | High      | 0      | bloquear | Una alerta High en la app encendida es explotable desde afuera; no se tolera ninguna |
+| zap         | Medium    | 3      | bloquear | Límite de tolerancia: son las 3 alertas Medium que había al iniciar. Impacto moderado; se corrigen en la semana 3 |
+| hadolint    | error     | 0      | bloquear | Un error en el Dockerfile depende solo de nosotros y es barato de corregir; no hay razón para tolerarlo |
+| trivy-config | CRITICAL / HIGH | 0 / 0 | bloquear | Configuración insegura de la imagen (p. ej. correr como root); es configuración propia y se corrige sin depender de terceros |
+| trivy-so    | CRITICAL / HIGH | 0 / 0 | bloquear (solo_con_correccion: true) | Solo detiene si existe un parche disponible que no aplicamos. Las fallas sin arreglo (p. ej. libexpat CVE-2026-115506) no bloquean: detener el cambio no reduce el riesgo; se documentan como riesgo residual |
+| trivy-dependencias | CRITICAL / HIGH | sin umbral (`umbrales: {}`) | solo reporta (semana 2) | Las librerías viejas necesitan Python 3.9 y se actualizan en la semana 3. Bloquear hoy detendría todo sin poder corregirlo (p. ej. PyYAML CVE-2020-14343). Desde la semana 3 pasa a 0 |
+| bandit      | HIGH      | 0      | pendiente (semana 3) | Aún comentado en la política; se activa con `semana.sh 3` |
+| gitleaks    | SECRETO   | 0      | pendiente (semana 4) | Se activa con `semana.sh 4` |
+| endurecimiento | ALTA   | 0      | bloquear | Asegura que se mantengan las protecciones END-01…END-12 (usuario no root, sin secretos, solo lectura). Una regresión aquí reabre riesgos ya cerrados |
+| registros   | ALTA      | 0      | pendiente (semana 4) | Se activa con `semana.sh 4` |
+
 ## 3. Disparadores
 | Evento | Qué corre | Por qué |
 |--------|-----------|---------|

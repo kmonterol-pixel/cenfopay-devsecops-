@@ -57,7 +57,7 @@ herramientas:
   #     ALTA: 0
 
 # Excepciones (aceptación formal de un riesgo). Todas vencen: obligan a revisarlas.
-excepciones: []
+excepciones:
 #  - herramienta: trivy-dependencias
 #    id: CVE-2026-00000
 #    tipo: riesgo_aceptado                # o falso_positivo
@@ -65,3 +65,14 @@ excepciones: []
 #    justificacion: "La función vulnerable no se usa; control compensatorio X (ver informe)."
 #    responsable: "Nombre Apellido"
 #    vence: 2026-12-31
+  - herramienta: endurecimiento
+    id: END-02
+    tipo: falso_positivo
+    justificacion: >-
+      END-02 detecta GPG_KEY y PYTHON_SHA256, que vienen de la imagen oficial
+      python:3.9-slim-bookworm (no del Dockerfile de CenfoPay). Son la huella pública
+      de la llave de firma de Python y el hash del instalador: datos públicos de
+      verificación de integridad, no secretos. Las contraseñas que sí estaban en ENV
+      (DB_PASSWORD y SECRET_KEY) se eliminaron en la semana 2.
+    responsable: "Karina Montero"
+    vence: 2026-12-31

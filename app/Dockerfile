@@ -12,7 +12,8 @@ WORKDIR /build
 COPY requirements.txt .
 RUN python -m venv /opt/venv \
  && /opt/venv/bin/pip install --no-cache-dir --upgrade pip \
- && /opt/venv/bin/pip install --no-cache-dir --require-virtualenv -r requirements.txt
+ && /opt/venv/bin/pip install --no-cache-dir --require-virtualenv -r requirements.txt\
+ && /opt/venv/bin/python -m pip uninstall -y pip
 
 # ---------------------------------------------------------------- 2. ejecución
 FROM ${PYTHON_IMAGE}
@@ -29,6 +30,7 @@ ENV PATH="/opt/venv/bin:${PATH}" \
 RUN apt-get update \
  && apt-get upgrade -y --no-install-recommends \
  && rm -rf /var/lib/apt/lists/* \
+ && python -m pip uninstall -y pip \
  && groupadd --system --gid 10001 cenfopay \
  && useradd --system --uid 10001 --gid cenfopay --no-create-home \
             --home-dir /nonexistent --shell /usr/sbin/nologin cenfopay
